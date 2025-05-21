@@ -9,21 +9,12 @@ class LSrouter(Router):
         super().__init__(addr)
         self.heartbeat_time = heartbeat_time
         self.last_time = 0
-
-        # Bản đồ mạng: addr -> (sequence_number, {neighbor: cost})
-        self.link_state_db = {self.addr: (0, {})}
-
-        # Bản đồ cổng kết nối: neighbor -> (port, cost)
+        self.link_state_db = {self.addr: (0, {})}     
         self.neighbors = {}
-
-        # Bảng định tuyến: đích -> cổng gửi
         self.forwarding_table = {}
-
-        # Ghi nhớ số thứ tự gói tin cuối cùng của mỗi router
         self.sequence_numbers = {self.addr: 0}
 
     def _broadcast_link_state(self):
-        """Gửi gói tin trạng thái liên kết của router này đến tất cả hàng xóm."""
         seq_num, neighbors = self.link_state_db[self.addr]
         content = f"{self.addr}|{seq_num}|{','.join([f'{n}:{c}' for n, c in neighbors.items()])}"
         packet = Packet(Packet.ROUTING, self.addr, None, content)
@@ -31,7 +22,6 @@ class LSrouter(Router):
             self.send(port, packet)
 
     def _recompute_forwarding_table(self):
-        """Cập nhật bảng định tuyến bằng thuật toán Dijkstra."""
         graph = {}
         for node, (_, neighbors) in self.link_state_db.items():
             graph[node] = neighbors.copy()
@@ -71,7 +61,6 @@ class LSrouter(Router):
                 out_port = self.forwarding_table[dst]
                 self.send(out_port, packet)
         elif packet.kind == Packet.ROUTING:
-            # Giải mã gói tin trạng thái liên kết
             try:
                 content = packet.content
                 src, seq_str, neigh_str = content.split("|")
@@ -89,7 +78,6 @@ class LSrouter(Router):
                 self.link_state_db[src] = (seq, neighbors)
                 self._recompute_forwarding_table()
 
-                # Lan truyền gói tin đến các hàng xóm (trừ nơi đã nhận)
                 for p in self.links:
                     if p != port:
                         self.send(p, packet)
@@ -105,7 +93,6 @@ class LSrouter(Router):
         self._broadcast_link_state()
 
     def handle_remove_link(self, port):
-        # Tìm và loại bỏ hàng xóm tương ứng với port này
         removed = None
         for neighbor, (p, _) in self.neighbors.items():
             if p == port:
