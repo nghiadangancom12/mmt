@@ -28,9 +28,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
-                    TaskCompletedScreen()
-                }
+                ) { TaskCompletedScreen() }
             }
         }
     }
@@ -41,38 +39,32 @@ fun TaskCompletedScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(horizontal = 28.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(R.drawable.ic_task_completed),
             contentDescription = null,
-            modifier = Modifier
-                .size(120.dp)
-                .padding(bottom = 24.dp)
+            modifier = Modifier.size(130.dp).padding(bottom = 26.dp)
         )
         Text(
             text = stringResource(R.string.all_task_completed),
-            fontSize = 22.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 10.dp)
         )
-        Text(
-            text = stringResource(R.string.nice_work),
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+        Text(text = stringResource(R.string.nice_work),
+            fontSize = 17.sp,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
             textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.height(4.dp))
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun TaskCompletedPreview() {
-    TaskCompletedTheme {
-        TaskCompletedScreen()
-    }
-}
+fun TaskCompletedPreview() { TaskCompletedTheme { TaskCompletedScreen() } }

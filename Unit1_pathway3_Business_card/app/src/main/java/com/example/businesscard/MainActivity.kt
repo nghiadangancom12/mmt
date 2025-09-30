@@ -28,10 +28,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BusinessCardTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) { UiCard() }
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    UiCard()
+                }
             }
         }
     }
@@ -40,9 +39,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UiCard() {
     Column(
-        modifier = Modifier.fillMaxSize()
-            .background(Color(0xFF121212))
-            .padding(24.dp),
+        modifier = Modifier.fillMaxSize().background(Color(0xFF121212)).padding(24.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -54,27 +51,17 @@ fun UiCard() {
             Image(
                 painter = painterResource(id = R.drawable.avatar),
                 contentDescription = stringResource(R.string.avatar_desc),
-                modifier = Modifier.size(140.dp).clip(CircleShape)
-                    .background(Color.White).padding(8.dp)
+                modifier = Modifier.size(140.dp).clip(CircleShape).background(Color.White).padding(8.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = stringResource(R.string.user_name),
-                fontSize = 36.sp,
-                color = Color.White
-            )
-            Text(
-                text = stringResource(R.string.user_title),
-                fontSize = 20.sp,
-                color = Color(0xFFB0BEC5)
-            )
+            Text(text = stringResource(R.string.user_name), fontSize = 36.sp, color = Color.White)
+            Text(text = stringResource(R.string.user_title), fontSize = 20.sp, color = Color(0xFFB0BEC5))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Column(
-            modifier = Modifier.weight(1f).fillMaxWidth()
-                .padding(horizontal = 48.dp),
+            modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 48.dp),
             verticalArrangement = Arrangement.Center
         ) {
             ContactRow(iconI = Icons.Default.Phone, txt = stringResource(R.string.user_phone))
@@ -89,12 +76,7 @@ fun ContactRow(iconI: androidx.compose.ui.graphics.vector.ImageVector, txt: Stri
         modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = iconI,
-            contentDescription = null,
-            tint = Color(0xFF64FFDA),
-            modifier = Modifier.size(26.dp)
-        )
+        Icon(imageVector = iconI, contentDescription = null, tint = Color(0xFF64FFDA), modifier = Modifier.size(26.dp))
         Spacer(modifier = Modifier.width(20.dp))
         Text(text = txt, color = Color(0xFFECEFF1), fontSize = 18.sp)
     }
